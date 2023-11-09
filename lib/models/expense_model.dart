@@ -48,8 +48,8 @@ class ExpenseModel extends fnd.ChangeNotifier {
     notifyListeners();
   }
 
-  void addExpsne(Expense data) async {
-    _expenses = await DBHelper().getAllExpenses();
+  void addExpense(Expense data) async {
+    await DBHelper().addExpense(data);
     notifyListeners();
   }
 

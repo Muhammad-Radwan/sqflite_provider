@@ -74,12 +74,12 @@ class DBHelper {
 
   Future<void> deleteExpense(Expense exp) async {
     final dbConn = await getDBConn();
-    dbConn.delete('categories', where: 'id = ?', whereArgs: [exp.id]);
+    dbConn.delete('expenses', where: 'id = ?', whereArgs: [exp.id]);
   }
 
   Future<List<Expense>> getAllExpenses() async {
     final dbConn = await getDBConn();
-    List<Map<String, dynamic>> maps = await dbConn.query('table');
+    List<Map<String, dynamic>> maps = await dbConn.query('expenses');
 
     return List.generate(maps.length, (i) => Expense.fromJson(maps[i]));
   }

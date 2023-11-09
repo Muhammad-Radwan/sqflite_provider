@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_provider/models/expense_model.dart';
+import 'package:sqflite_provider/pages/add_category.dart';
+import 'package:sqflite_provider/pages/add_expense.dart';
 import 'package:sqflite_provider/pages/categories_list.dart';
 
 void main() {
@@ -22,7 +24,7 @@ class MainApp extends StatelessWidget {
           theme: ThemeData(
               colorSchemeSeed: Colors.brown,
               textTheme: GoogleFonts.mavenProTextTheme()),
-          home: CategoriesList(),
+          home: AddExpense(),
         ));
   }
 }

@@ -1,21 +1,17 @@
 class Expense {
   int? id;
-  int? categoryID;
+  int? catID;
   String? expenseDate;
   double? expenseValue;
   String? notes;
 
   Expense(
-      {this.id,
-      this.categoryID,
-      this.expenseDate,
-      this.expenseValue,
-      this.notes});
+      {this.id, this.catID, this.expenseDate, this.expenseValue, this.notes});
 
   factory Expense.fromJson(Map<String, dynamic> json) {
     return Expense(
         id: json['id'],
-        categoryID: json['categoryID'],
+        catID: json['catID'],
         expenseDate: json['expenseDate'],
         expenseValue: json['expenseValue'],
         notes: json['notes']);
@@ -24,7 +20,7 @@ class Expense {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'categoryID': categoryID,
+      'catID': catID,
       'expenseDate': expenseDate,
       'expenseValue': expenseValue,
       'notes': notes
