@@ -2,7 +2,7 @@ class Expense {
   int? id;
   int? catID;
   String? expenseDate;
-  double? expenseValue;
+  String? expenseValue;
   String? notes;
 
   Expense(

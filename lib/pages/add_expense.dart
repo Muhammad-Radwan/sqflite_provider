@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sqflite_provider/models/category.dart';
 import 'package:sqflite_provider/models/expense.dart';
 import 'package:sqflite_provider/models/expense_model.dart';
+import 'package:sqflite_provider/pages/expenses_list.dart';
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
@@ -12,10 +13,10 @@ class AddExpense extends StatefulWidget {
 }
 
 class _AddExpenseState extends State<AddExpense> {
-  Category? _selectedCategory = Category();
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _expenseValueController = TextEditingController();
-  TextEditingController _expenseNoteController = TextEditingController();
+  Category? selectedCategory = Category();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController expenseValueController = TextEditingController();
+  TextEditingController expenseNoteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class _AddExpenseState extends State<AddExpense> {
                   hint: const Text('Please Choose a Category'),
                   onChanged: (value) {
                     setState(() {
-                      _selectedCategory = value;
+                      selectedCategory = value;
                     });
                   },
                   items: model.Categories.map((e) {
@@ -54,7 +55,7 @@ class _AddExpenseState extends State<AddExpense> {
           ),
           TextField(
             readOnly: true,
-            controller: _dateController,
+            controller: dateController,
             decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -66,7 +67,7 @@ class _AddExpenseState extends State<AddExpense> {
             height: 10,
           ),
           TextField(
-              controller: _expenseValueController,
+              controller: expenseValueController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -76,7 +77,7 @@ class _AddExpenseState extends State<AddExpense> {
             height: 10,
           ),
           TextField(
-              controller: _expenseNoteController,
+              controller: expenseNoteController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -85,36 +86,26 @@ class _AddExpenseState extends State<AddExpense> {
           const SizedBox(
             height: 10,
           ),
-          Consumer<ExpenseModel>(builder: (context, model, child) {
-            return Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      Expense exp = Expense(
-                          catID: _selectedCategory!.catID,
-                          expenseDate: _dateController.text,
-                          expenseValue:
-                              double.tryParse(_expenseValueController.text),
-                          notes: _expenseNoteController.text);
-                      print(exp.toJson());
-                      model.addExpense(exp);
-                    },
-                    child: const Text(
-                      'Save Note',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
+          Consumer<ExpenseModel>(
+            builder: (context, model, child) {
+              return ElevatedButton(
+                onPressed: () async {
+                  Expense exp = Expense(
+                      catID: selectedCategory!.catID,
+                      expenseDate: dateController.text,
+                      expenseValue: expenseValueController.text,
+                      notes: expenseNoteController.text);
+                  model.addExpense(exp);
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ExpensesList()));
+                },
+                child: const Text(
+                  'Save Expense',
+                  style: TextStyle(fontSize: 16),
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      print(model.Expenses[0].catID);
-                    },
-                    child: Text('test'))
-              ],
-            );
-          })
+              );
+            },
+          )
         ]),
       )),
     );
@@ -127,7 +118,7 @@ class _AddExpenseState extends State<AddExpense> {
         firstDate: DateTime(2000),
         lastDate: DateTime(2030));
     setState(() {
-      _dateController.text = pickedDate.toString();
+      dateController.text = pickedDate.toString();
     });
   }
 }

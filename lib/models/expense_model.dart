@@ -12,15 +12,15 @@ class ExpenseModel extends fnd.ChangeNotifier {
   List<Expense> _expenses = [];
   List<Expense> get Expenses => _expenses;
 
-  //double _expensesTotal = 0.0;
-  double get ExppensesTotal => getTotalExpenses();
+  double _totalExpenses = 0.0;
+  double get TotalExpenses => _totalExpenses;
 
-  double getTotalExpenses() {
-    double initial = 0;
-    for (int i = 0; i <= _expenses.length; i++) {
-      initial += _expenses[i].expenseValue!;
+  void sumExpenses() {
+    double rv = 0.0;
+    for (int i = 0; i < _expenses.length; i++) {
+      rv += double.parse('${_expenses[i].expenseValue}');
     }
-    return initial;
+    _totalExpenses = rv;
   }
 
   void getAllCategories() async {
@@ -43,7 +43,7 @@ class ExpenseModel extends fnd.ChangeNotifier {
     notifyListeners();
   }
 
-  void getAllExpenss() async {
+  void getAllExpenses() async {
     _expenses = await DBHelper().getAllExpenses();
     notifyListeners();
   }
@@ -53,13 +53,17 @@ class ExpenseModel extends fnd.ChangeNotifier {
     notifyListeners();
   }
 
-  void updateExpsne(Expense data) async {
+  void updateExpense(Expense data) async {
     await DBHelper().updateExpense(data);
     notifyListeners();
   }
 
-  void deleteExpsne(Expense data) async {
+  void deleteExpense(Expense data) async {
     await DBHelper().deleteExpense(data);
     notifyListeners();
+  }
+
+  Future<String> getExpenseNameByID(int? id) async {
+    return await DBHelper().getCategoryNameByID(id!);
   }
 }

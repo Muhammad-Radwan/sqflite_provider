@@ -52,6 +52,13 @@ class DBHelper {
     return Category.fromJson(maps[0]);
   }
 
+  Future<String> getCategoryNameByID(int id) async {
+    final dbConn = await getDBConn();
+    List<Map<String, dynamic>> maps =
+        await dbConn.query('categories', where: 'catID = ?', whereArgs: [id]);
+    return '${Category.fromJson(maps[0]).catName}';
+  }
+
   Future<List<Category>> getAllCategories() async {
     final dbConn = await getDBConn();
     List<Map<String, dynamic>> maps = await dbConn.query(
